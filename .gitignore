@@ -13,9 +13,6 @@ venv/
 .venv/
 env/
 python_env/
-bin/
-include/
-lib/
 lib64/
 share/tcl8.6/
 pyvenv.cfg
