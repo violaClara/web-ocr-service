@@ -47,12 +47,22 @@ export default function ArchivePage() {
   useEffect(() => {
     fetchData();
 
-    // Poll every 10 seconds for real-time updates from Google Sheets
-    const interval = setInterval(() => {
-      fetchData(true);
-    }, 10000);
+    // Listen for real-time refresh signals via Server-Sent Events (SSE)
+    const eventSource = new EventSource("/api/events");
 
-    return () => clearInterval(interval);
+    eventSource.onmessage = (event) => {
+      console.log("Real-time update received:", event.data);
+      fetchData(true); // Fetch in background
+    };
+
+    eventSource.onerror = (err) => {
+      console.error("EventSource failed:", err);
+      // EventSource automatically retries by default
+    };
+
+    return () => {
+      eventSource.close();
+    };
   }, []);
 
   const fetchData = async (isBackground = false) => {

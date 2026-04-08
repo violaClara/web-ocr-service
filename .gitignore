@@ -101,3 +101,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+google-apps-script.js
+WEBHOOK_SETUP.md
